@@ -18,7 +18,9 @@ void ofApp::draw(){
 
 	cam.begin();
 		shader.begin();
-
+			shader.setUniform2f("res", ofGetWidth(), ofGetHeight());
+			shader.setUniform1f("time", ofGetElapsedTimef());
+			
 		shader.end();
 	cam.end();
 
