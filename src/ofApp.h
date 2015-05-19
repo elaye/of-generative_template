@@ -4,9 +4,14 @@
 
 #include "ofxGui.h"
 
+#include "Object.h"
+
 class ofApp : public ofBaseApp{
 
-	ofParameter<float> scale;
+	ofParameter<int> nbObjects;
+
+	ofParameter<float> scale1;
+	ofParameter<float> scale2;
 	
 	ofParameterGroup parameters; 
 
@@ -14,6 +19,8 @@ class ofApp : public ofBaseApp{
 
 	ofShader shader;
 	ofEasyCam cam;
+
+	vector<shared_ptr<Object>> objects;
 
 	public:
 		void setup();
@@ -30,4 +37,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+	private:
+		void generate();
+		void regenerate();
+		void changeNbObjects(int& n);
+		void drawObjects();
 };
