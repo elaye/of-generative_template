@@ -56,7 +56,7 @@ void ofApp::draw(){
 		cam.end();
 	fbo.end();
 
-	fbo.draw();
+	fbo.draw(0, 0);
 
 	gui.draw();
 }
