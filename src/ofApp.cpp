@@ -12,6 +12,12 @@ void ofApp::setup(){
 
 	gui.setup(parameters);
 
+	ofFbo::Settings fboSettings;
+	fboSettings.width = ofGetWidth();
+	fboSettings.height = ofGetHeight();
+	fboSettings.internalformat = GL_RGBA32F;
+	fboSettings.numSamples = 8;
+
 	generate();
 }
 
@@ -39,13 +45,18 @@ void ofApp::update(){
 void ofApp::draw(){
 	ofBackgroundGradient(ofColor(40), ofColor(0), OF_GRADIENT_CIRCULAR);
 
-	cam.begin();
-		shader.begin();
-			shader.setUniform2f("res", ofGetWidth(), ofGetHeight());
-			shader.setUniform1f("time", ofGetElapsedTimef());
-			drawObjects();	
-		shader.end();
-	cam.end();
+	fbo.begin();
+		ofClear(0, 0, 0, 0);
+		cam.begin();
+			shader.begin();
+				shader.setUniform2f("res", ofGetWidth(), ofGetHeight());
+				shader.setUniform1f("time", ofGetElapsedTimef());
+				drawObjects();	
+			shader.end();
+		cam.end();
+	fbo.end();
+
+	fbo.draw();
 
 	gui.draw();
 }

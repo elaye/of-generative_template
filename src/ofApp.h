@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp{
 
 	ofxPanel gui;
 
+	ofFbo fbo;
 	ofShader shader;
 	ofEasyCam cam;
 
