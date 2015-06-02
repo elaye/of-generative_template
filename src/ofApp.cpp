@@ -5,6 +5,7 @@ void ofApp::setup(){
 	parameters.add(nbObjects.set("Nb objects", 9, 1, 12));
 	parameters.add(scale1.set("Scale 1", 1.0, 0.0, 100.0));
 	parameters.add(scale2.set("Scale 2", 1.0, 0.0, 100.0));
+	parameters.add(lineWidth.set("Line width", 30.0, 1.0, 100.0));
 
 	nbObjects.addListener(this, &ofApp::changeNbObjects);
 
@@ -30,6 +31,23 @@ void ofApp::generate(){
 								.build();
 		objects.push_back(object);
 	}
+
+	line = Line::Builder().setWidth(lineWidth)
+							.build();
+
+	// line->curveTo(-200, 0);
+	// line->curveTo(-100, 30);
+	// line->curveTo(-50, 50);
+	// line->curveTo(10, 10);
+	// line->curveTo(50, -50);
+	// line->curveTo(100, -30);
+	// line->addVertex(200, 0);
+	// line->curveTo(300, 0);
+
+	line->addVertex(-100, 0);
+	line->lineTo(0, 100);
+	line->lineTo(100, 0);
+	line->lineTo(200, 0);
 }
 void ofApp::changeNbObjects(int& n){
 	regenerate();
@@ -57,6 +75,15 @@ void ofApp::draw(){
 					shader.setUniform1f("time", ofGetElapsedTimef());
 					drawObjects();	
 				shader.end();
+				ofSetColor(ofColor::red);
+				ofCircle(-200, 0, 7);
+				ofCircle(-100, 3, 7);
+				ofCircle(-50, 50, 7);
+				ofCircle(10, 10, 7);
+				ofCircle(50, -50, 7);
+				ofCircle(100, -3, 7);				
+				ofSetColor(ofColor::white);
+				line->draw();
 		cam.end();
 	fbo.end();
 

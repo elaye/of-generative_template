@@ -4,8 +4,10 @@
 
 #include "ofxGui.h"
 
-#include "Object.h"
 #include "TileSaver.h"
+
+#include "Object.h"
+#include "Line.h"
 
 class ofApp : public ofBaseApp{
 
@@ -13,6 +15,8 @@ class ofApp : public ofBaseApp{
 
 	ofParameter<float> scale1;
 	ofParameter<float> scale2;
+
+	ofParameter<float> lineWidth;
 	
 	ofParameterGroup parameters; 
 
@@ -25,6 +29,7 @@ class ofApp : public ofBaseApp{
 	TileSaver saver;
 
 	vector<shared_ptr<Object>> objects;
+	shared_ptr<Line> line;
 
 	public:
 		void setup();
