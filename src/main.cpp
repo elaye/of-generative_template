@@ -11,7 +11,8 @@ int main( ){
 //	ofCreateWindow(settings);
 //
 	ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);
-	ofSetupOpenGL(1024, 768, OF_WINDOW);
+	// ofSetupOpenGL(1024, 768, OF_WINDOW);
+	ofSetupOpenGL(1024, 717, OF_WINDOW);
 
 	ofRunApp(new ofApp());
 }

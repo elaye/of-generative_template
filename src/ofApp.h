@@ -5,6 +5,7 @@
 #include "ofxGui.h"
 
 #include "Object.h"
+#include "TileSaver.h"
 
 class ofApp : public ofBaseApp{
 
@@ -20,6 +21,8 @@ class ofApp : public ofBaseApp{
 	ofFbo fbo;
 	ofShader shader;
 	ofEasyCam cam;
+
+	TileSaver saver;
 
 	vector<shared_ptr<Object>> objects;
 
