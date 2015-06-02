@@ -123,6 +123,7 @@ void Line::draw(){
 	// mesh.draw();
 	// mesh.drawWireframe();
 	shader.begin();
+		shader.setUniform1f("lineWidth", width);
 		// ofPolyline::draw();
 		// vertexDataVbo.draw(poly.isClosed()?GL_LINE_LOOP:GL_LINE_STRIP, 0, poly.size());
 		vbo.drawElements(GL_LINES_ADJACENCY, indexData.size() * 4);
