@@ -1,6 +1,24 @@
 #include "ofApp.h"
 
 void ofApp::setup(){
+	setupRenderers();
+	setupParameters();
+	setupFbo();
+	setupGui();
+
+	generate();
+
+	shader.load("shaders/shader_vert.glsl", "shaders/shader_frag.glsl");
+	saver.setup(4, true);
+}
+
+void ofApp::setupRenderers(){
+	defaultRenderer = ofGetCurrentRenderer();
+	cairoRenderer = ofPtr<ofCairoRenderer>(new ofCairoRenderer);
+	cairoRenderer->setupMemoryOnly(ofCairoRenderer::IMAGE, true, false, ofRectangle(0, 0, ofGetWidth(), ofGetHeight()));  
+}
+
+void ofApp::setupParameters(){
 	parameters.setName("Parameters");
 	parameters.add(nbObjects.set("Nb objects", 9, 1, 12));
 	parameters.add(scale1.set("Scale 1", 1.0, 0.0, 100.0));
@@ -8,20 +26,20 @@ void ofApp::setup(){
 	parameters.add(lineWidth.set("Line width", 30.0, 1.0, 100.0));
 
 	nbObjects.addListener(this, &ofApp::changeNbObjects);
+}
 
-	shader.load("shaders/shader_vert.glsl", "shaders/shader_frag.glsl");
-
+void ofApp::setupGui(){
 	gui.setup(parameters);
+}
 
+void ofApp::setupFbo(){
 	ofFbo::Settings fboSettings;
 	fboSettings.width = ofGetWidth();
 	fboSettings.height = ofGetHeight();
 	fboSettings.internalformat = GL_RGBA32F;
-	fboSettings.numSamples = 8;
+	fboSettings.numSamples = 16;
 
-	generate();
-
-	saver.setup(4, true);
+	fbo.allocate(fboSettings);
 }
 
 void ofApp::generate(){
@@ -32,17 +50,16 @@ void ofApp::generate(){
 		objects.push_back(object);
 	}
 
-	line = Line::Builder().setWidth(lineWidth)
-							.build();
-
 	float r = 200.0;
-	line->addVertex(r, 0);
+	// ofPoint p(0, 0);
+	ofPoint p(ofGetWidth()/2.0, ofGetHeight()/2.0);
+	line.addVertex(r+p.x, p.y);
 	int n = 20;
 	for(int i = 1; i < n; ++i){
 		float a = 2.0 * M_PI * float(i) / float(n);
-		line->lineTo(r * cos(a), r * sin(a));
+		line.lineTo(r * cos(a) + p.x, r * sin(a) + p.y);
 	}
-	line->close();
+	line.close();
 }
 
 void ofApp::changeNbObjects(int& n){
@@ -61,19 +78,33 @@ void ofApp::update(){
 void ofApp::draw(){
 	ofBackgroundGradient(ofColor(40), ofColor(0), OF_GRADIENT_CIRCULAR);
 
+	ofSetCurrentRenderer(cairoRenderer);
+	// cam.begin();
+		ofBackground(ofColor::black);
+		ofSetColor(ofColor::white);
+		ofSetLineWidth(lineWidth);
+		line.draw();
+	// cam.end();
+	ofSetCurrentRenderer(defaultRenderer);
+
+	// cairoRenderer->flush();
+	cairoImage.setFromPixels(cairoRenderer->getImageSurfacePixels());
+
 	fbo.begin();
 		ofClear(0, 0, 0, 255);
 		cam.begin();
 			saver.setCameraData( cam.getPosition() + ofVec3f(0,0,1), cam.getPosition(), cam.getUpDir() );
 			saver.begin();
+
 				shader.begin();
 					shader.setUniform2f("res", ofGetWidth(), ofGetHeight());
 					shader.setUniform1f("time", ofGetElapsedTimef());
 					drawObjects();	
 				shader.end();
 		
-				ofSetColor(ofColor::white);
-				line->draw();
+				// cairoImage.draw(0, 0);
+				cairoImage.draw(-ofGetWidth()/2.0, -ofGetHeight()/2.0);
+
 		cam.end();
 	fbo.end();
 
@@ -95,36 +126,4 @@ void ofApp::keyPressed(int key){
 			saver.finish("img.tiff", true);
 			break;
 	}
-}
-
-void ofApp::keyReleased(int key){
-
-}
-
-void ofApp::mouseMoved(int x, int y ){
-
-}
-
-void ofApp::mouseDragged(int x, int y, int button){
-
-}
-
-void ofApp::mousePressed(int x, int y, int button){
-
-}
-
-void ofApp::mouseReleased(int x, int y, int button){
-
-}
-
-void ofApp::windowResized(int w, int h){
-
-}
-
-void ofApp::gotMessage(ofMessage msg){
-
-}
-
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
-
 }
