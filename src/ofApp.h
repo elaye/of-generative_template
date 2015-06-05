@@ -7,7 +7,6 @@
 #include "TileSaver.h"
 
 #include "Object.h"
-#include "Line.h"
 
 class ofApp : public ofBaseApp{
 
