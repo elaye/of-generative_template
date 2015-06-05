@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp{
 	vector<shared_ptr<Object>> objects;
 	shared_ptr<Line> line;
 
+
 	public:
 		void setup();
 		void update();

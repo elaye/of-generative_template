@@ -8,12 +8,12 @@ class Line : public ofPolyline {
 	// ofVboMesh mesh;
 	ofPath path;
 
-	vector<ofVec3f> normals;
-	vector<ofVec3f> points;
+	// vector<ofVec3f> points;
 
 	ofVec3f rightVector;
 
 	vector<uint> indexData;
+	vector<ofVec3f> normalData;
 
 	ofVbo vbo;
 	ofShader shader;
@@ -25,7 +25,10 @@ class Line : public ofPolyline {
 
 		~Line();
 
+		void close();
 		void setupIndices();
+		void setupNormals();
+		ofVec3f getNormal(ofVec3f v);
 		// void generateMesh();
 		// void regenerateMesh();
 		// void lineTo(float x, float y, float z = 0.0);
