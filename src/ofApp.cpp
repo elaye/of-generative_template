@@ -144,7 +144,7 @@ void ofApp::keyPressed(int key){
 		case 's':
 			// saver.finish("img.tiff", true);
 			bSave = true;
-			cairoSaveRenderer->setup("output.png", ofCairoRenderer::IMAGE, false, true, ofRectangle(0, 0, scale*ofGetWidth(), scale*ofGetHeight()));
+			cairoSaveRenderer->setup("output.tiff", ofCairoRenderer::IMAGE, false, true, ofRectangle(0, 0, scale*ofGetWidth(), scale*ofGetHeight()));
 			break;
 	}
 }
