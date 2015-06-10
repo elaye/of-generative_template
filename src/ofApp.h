@@ -4,7 +4,7 @@
 
 #include "ofxGui.h"
 
-#include "TileSaver.h"
+// #include "TileSaver.h"
 
 #include "Object.h"
 
@@ -21,26 +21,30 @@ class ofApp : public ofBaseApp{
 
 	ofxPanel gui;
 
-	ofFbo fbo;
-	ofShader shader;
-	ofEasyCam cam;
+	// ofFbo fbo;
+	// ofShader shader;
+	// ofEasyCam cam;
 
-	TileSaver saver;
+	// TileSaver saver;
 
 	vector<shared_ptr<Object>> objects;
-	ofPolyline line;
 
 	ofPtr<ofBaseRenderer> defaultRenderer;
 	ofPtr<ofCairoRenderer> cairoRenderer;
+	ofPtr<ofCairoRenderer> cairoSaveRenderer;
+	cairo_t* cr;
 
 	ofImage cairoImage;
+	
+	bool bHasChanged, bParameters, bSave;
+	int scale;
 	
 	public:
 		void setup();
 		void setupRenderers();
 		void setupParameters();
 		void setupGui();
-		void setupFbo();
+		// void setupFbo();
 
 		void update();
 		void draw();
